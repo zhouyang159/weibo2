@@ -21,14 +21,14 @@ class BigImgBox extends Component {
 
 				<div className="bigImgBox-swiper-container">
 					<div className="swiper-wrapper">
-						{pics.map(item => {
-							return <div className="swiper-slide">
+						{pics.map((item,index) => {
+							return <div key={index} className="swiper-slide">
 								<img style={{width: '100%'}} src={item.url}></img>
 							</div>
 						})}
 					</div>
 				</div>
-				
+
 			</div>
 		)
 	};

@@ -5,6 +5,9 @@ import axios from 'axios';
 
 import BigImgBox from './BigImgBox';
 
+import EventBus from '../../EventBus';
+ 
+
 
 class Card extends React.Component {
 
@@ -22,9 +25,13 @@ class Card extends React.Component {
 
     }
 
+
+    componentDidMount(){
+        this.cardBodyText.innerHTML = this.props.item.mblog.text;
+    }
+
     render(){
         let { item } = this.props
-
         return(
             <div className="Card">
                 <div className="card_header">
@@ -44,8 +51,8 @@ class Card extends React.Component {
                     </div>
                 </div>
                 <div className="card_body">
-                    <div>
-                        华为Mate20，无语了！ ​​​
+                    <div ref={ node => this.cardBodyText = node}>
+
                     </div>
                     {
                         item.mblog.pics ? 
@@ -93,10 +100,26 @@ class Card extends React.Component {
 
 class Body extends React.Component {
 
-    state = {}
 
-    changeCards(containerId){
-        console.log(containerId);
+    constructor(props){
+        super(props);
+        this.state = {};
+
+        EventBus.addListener('changeCategory', (containerid) => {
+            axios({
+                url: '/api/container/getIndex',
+                params: {
+                    containerid: containerid,
+                    openApp: 0
+                }
+            }).then( res => {
+                let cards = res.data.data.cards
+                this.setState({
+                    cards: cards
+                });
+            }).catch( err => console.log(err));
+        
+        });
     }
 
     componentWillMount(){
@@ -115,32 +138,39 @@ class Body extends React.Component {
         }).catch( err => console.log(err));
     }
 
-    componentWillReceiveProps(nextProps){
-        axios({
-            url: '/api/container/getIndex',
-            params: {
-                containerid: nextProps.containerId,
-                openApp: 0
-            }
-        }).then( res => {
-            let cards = res.data.data.cards
-            this.setState({
-                cards: cards
-            });
-        }).catch( err => console.log(err));
+    //===================================
+
+    // componentWillMount(){
+    //     window.addEventListener('scroll', function(){
+    //         console.log(9999);
+    //     });
+    // }
+
+    componentDidMount(){
+        // console.log(this);
+        // let list = this.list;
+
+        window.addEventListener('scroll', function(){
+            console.log(1212121);
+        });
+
+        // list.onscroll = function(){
+        //     console.log(34343434);
+        // }
+
     }
+
+    //=================================================================================
 
     render(){
         return(
             <div className="Body">
-                <ul>
+                <ul ref={ node => this.list = node} onScroll={() => {console.log(888888);}}>
                     {this.state.cards ? this.state.cards.map( item => <Card key={item.itemid} item={item}></Card> ) : null}
                 </ul>
             </div>
         )
     }
 }
-
-
 
 export default Body;

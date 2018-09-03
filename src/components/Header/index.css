@@ -40,10 +40,10 @@
     font-size: 10px;
 }
 
-.Header .category .slider_item{
-    /* display: inline-block; */
-
+.Header .category .active-slide{
+    font-weight: bold;
 }
+
 .Header .category .center{
     width: 80%;
     overflow: hidden;
@@ -52,9 +52,8 @@
 .Header .TabCard{
     position: absolute;
     left: 0;
-    background: green;
+    background: #FAFAFA;
     width: 100%;
-    /* height: 200px; */
     padding: 8px;
     box-sizing: border-box;
 }
@@ -67,6 +66,10 @@
 .Header .TabCard ul li{
     padding: 4px 20px;
     margin: 0 13px 15px 0;
-    background: white;
+    background: #EEEEEE;
     border-radius: 3px;
+}
+
+.Header .active_li{
+    color: orange;
 }
