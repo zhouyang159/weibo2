@@ -13,9 +13,11 @@
     padding: 4px;
 }
 
-.Header .searchBar input{
+.Header .searchBar .input{
+    display: inline-block;
+    font-size: 14px;
     width: 230px;
-    padding: 5px;
+    padding: 3px;
     background: rgb(221, 221, 221);
     border: none;
 }

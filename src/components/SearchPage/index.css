@@ -1,0 +1,28 @@
+.SearchPage .input{
+    display: flex;
+}
+
+.SearchPage .search_bar{
+    flex: 1;
+}
+
+
+.SearchPage .hot_key{
+    height: 200px;
+    background: yellowgreen;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

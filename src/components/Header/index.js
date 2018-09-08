@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 import axios from 'axios';
@@ -117,7 +118,6 @@ class Header extends React.Component {
     toggleDownIcon() {
         let flag = this.state.showTabCard;
         if (!flag) {
-            console.log(1);
             this.iconDown.style.transform = "rotateZ(180deg)";
             this.iconDown.style.transition = "all 0.5s";
         } else {
@@ -135,7 +135,11 @@ class Header extends React.Component {
             <div className="Header">
                 <div className="searchBar">
                     <div><i className="iconfont icon-xinlang"></i></div>
-                    <div><input /></div>
+                    <div>
+                        <Link to={{pathname: "/search_page"}}>
+                            <div className="input"><i className="iconfont icon-sousuo" style={{fontSize: "14px"}}></i> 大家都在搜：京东</div>
+                        </Link>
+                    </div>
                     <div><i className="iconfont icon-bianji-"></i></div>
                     <div><i className="iconfont icon-renwu"></i></div>
 

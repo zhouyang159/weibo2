@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 import 'swiper/dist/css/swiper.css'
+import 'antd-mobile/dist/antd-mobile.css';
 
-import App from './App'
+import Routes from './Routes';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Routes />, document.getElementById('root'));
