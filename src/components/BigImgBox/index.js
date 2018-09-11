@@ -28,7 +28,6 @@ class BigImgBox extends Component {
 						})}
 					</div>
 				</div>
-
 			</div>
 		)
 	};

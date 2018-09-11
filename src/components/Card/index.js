@@ -8,9 +8,13 @@ import BigImgBox from '../BigImgBox';
 
 class Card extends React.Component {
 
-    state = {
-        showBigPic: false,
-        bigPicUrl: undefined
+    constructor(props) {
+        super(props)
+        this.state = {
+            showBigPic: false,
+            bigPicUrl: undefined
+        }
+        // this.a = this.a.bind(this);
     }
 
     showBigPic() {
@@ -19,16 +23,11 @@ class Card extends React.Component {
             showBigPic: !this.state.showBigPic,
             pics: pics
         });
-
     }
-
-    componentDidMount() {
-        this.cardBodyText.innerHTML = this.props.mblog.text;
-    }
-
     render() {
         let { mblog } = this.props;
         let pathname = `/profile/${mblog.user.id}`;
+
         return (
             <div className="Card">
                 <div className="card_header">
@@ -50,21 +49,23 @@ class Card extends React.Component {
                     </div>
                 </div>
                 <div className="card_body">
-                    <div ref={node => this.cardBodyText = node}>
+                    <Link to={{ pathname: `/detail/${mblog.id}`, mblog: mblog }}>
+                        <div dangerouslySetInnerHTML={{ __html: this.props.mblog.text }} ></div>
+                    </Link>
 
-                    </div>
                     {
-                        mblog.pics ?
-                            <div className="pics">
-                                <ul>
-                                    {mblog.pics.map((item, index) => {
-                                        return <li key={index} style={{ width: "32%" }} onClick={this.showBigPic.bind(this)} >
-                                            <img style={{ width: '100%' }} src={item.url}></img>
-                                        </li>
-                                    })}
-                                </ul>
-                            </div>
-                            : null
+                        mblog.pics &&
+                        <div className="pics">
+                            <ul>
+                                {mblog.pics.map((item, index) => {
+                                    return (<li key={index} style={{ width: "32%" }}>
+                                                {/* <Link> */}
+                                                    <img style={{ width: '100%' }} src={item.url}></img>
+                                                {/* </Link> */}
+                                            </li>)
+                                })}
+                            </ul>
+                        </div>
                     }
                 </div>
                 <div className="card_footer">
@@ -89,12 +90,11 @@ class Card extends React.Component {
                     </div>
                 </div>
 
-                {this.state.showBigPic ? <BigImgBox pics={this.state.pics} hideBigPic={() => this.setState({ showBigPic: !this.state.showBigPic })}></BigImgBox> : null}
+                {/* {this.state.showBigPic ? <BigImgBox pics={this.state.pics} hideBigPic={() => this.setState({ showBigPic: !this.state.showBigPic })}></BigImgBox> : null} */}
 
             </div>
         )
     }
 }
-
 
 export default Card;

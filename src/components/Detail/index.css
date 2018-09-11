@@ -1,0 +1,20 @@
+.Detail{
+    flex-direction: column;
+    height: 100%;
+}
+.Detail .navbar{
+    height: 45px;
+}
+
+.Detail .wrapper{
+    position: absolute;
+    top: 45px;
+    bottom: 0;
+    overflow: hidden;
+}
+
+
+
+
+
+

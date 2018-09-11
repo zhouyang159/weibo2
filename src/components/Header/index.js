@@ -9,14 +9,20 @@ import Swiper from 'swiper';
 import EventBus from '../../EventBus';
 
 class TabCard extends React.Component {
-    
+
     render() {
         return (
-            <div ref={ el => this.TabCard = el } className="TabCard animated fadeIn">
+            <div ref={el => this.TabCard = el} className="TabCard animated fadeIn">
                 <ul>
-                    {this.props.categoryArr ? this.props.categoryArr.map(item => {
-                        return <li key={item.gid} onClick={() => { this.props.changeCategory(item.gid) }} className={this.props.activeTabId === item.gid ? "active_li" : ""}>{item.name}</li>
-                    }) : null}
+                    {this.props.categoryArr && this.props.categoryArr.map(item =>
+                        <li
+                            key={item.gid}
+                            onClick={this.props.changeCategory(item.gid)}
+                            className={this.props.activeTabId === item.gid ? "active_li" : ""}
+                        >
+                            {item.name}
+                        </li>
+                    )}
                 </ul>
             </div>
         )
@@ -67,10 +73,12 @@ class Header extends React.Component {
     }
 
     changeCategory(id) {
-        EventBus.emit('changeCategory', id)
-        this.hideTabCard();
-        this.downTheDownIcon();
-        this.setState({activeTabId: id});
+        return () => {
+            EventBus.emit('changeCategory', id)
+            this.hideTabCard();
+            this.downTheDownIcon();
+            this.setState({ activeTabId: id });
+        }
     }
 
     hideTabCard() {
@@ -78,24 +86,24 @@ class Header extends React.Component {
     }
 
     toggleTabCard() {
-        console.log("isTransition",isTransition);
-        
-        if(isTransition) return;
+        console.log("isTransition", isTransition);
 
-        if(this.state.showTabCard){
+        if (isTransition) return;
+
+        if (this.state.showTabCard) {
             isTransition = true;
             //拿到真实dom节点,然后修改类名
             this.TabCard.TabCard.setAttribute("class", "TabCard animated fadeOut");
             this.toggleDownIcon();
-            
+
             setTimeout(() => {
                 this.setState({
                     showTabCard: !this.state.showTabCard
                 })
                 isTransition = false;
-            },800);
+            }, 800);
 
-        }else{
+        } else {
             isTransition = true;
             this.setState({
                 showTabCard: !this.state.showTabCard
@@ -129,22 +137,21 @@ class Header extends React.Component {
 
 
     render() {
-        //做一下tabCard的淡入淡出
         let { activeTabId } = this.state;
         return (
             <div className="Header">
                 <div className="searchBar">
                     <div><i className="iconfont icon-xinlang"></i></div>
                     <div>
-                        <Link to={{pathname: "/search_page"}}>
-                            <div className="input"><i className="iconfont icon-sousuo" style={{fontSize: "14px"}}></i> 大家都在搜：京东</div>
+                        <Link to={{ pathname: "/search_page" }}>
+                            <div className="input"><i className="iconfont icon-sousuo" style={{ fontSize: "14px" }}></i> 大家都在搜：京东</div>
                         </Link>
                     </div>
                     <div><i className="iconfont icon-bianji-"></i></div>
                     <div><i className="iconfont icon-renwu"></i></div>
 
                 </div>
-                
+
                 <div className="category">
 
                     <div className="slider_item center">
@@ -152,7 +159,7 @@ class Header extends React.Component {
                             <div className="swiper-wrapper">
                                 {this.state.categoryArr ?
                                     this.state.categoryArr.map(item => {
-                                        return <div key={item.gid} data-id={item.gid} onClick={this.changeCategory.bind(this, item.gid)} className={item.gid === activeTabId ? "swiper-slide active-slide" : "swiper-slide" }>{item.name}</div>
+                                        return <div key={item.gid} data-id={item.gid} onClick={this.changeCategory(item.gid)} className={item.gid === activeTabId ? "swiper-slide active-slide" : "swiper-slide"}>{item.name}</div>
                                     }) : null}
                             </div>
                         </div>
@@ -164,7 +171,12 @@ class Header extends React.Component {
 
                 </div>
 
-                {this.state.showTabCard ? <TabCard ref={ el => this.TabCard = el } activeTabId={this.state.activeTabId} changeCategory={this.changeCategory} categoryArr={this.state.categoryArr}></TabCard> : null}
+                {this.state.showTabCard && <TabCard
+                    ref={el => this.TabCard = el}
+                    activeTabId={this.state.activeTabId}
+                    changeCategory={this.changeCategory}
+                    categoryArr={this.state.categoryArr}
+                ></TabCard>}
             </div>
         )
     }

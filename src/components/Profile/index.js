@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './index.css';
-import { Link } from 'react-router-dom';
 
 import { NavBar, Icon, Button } from 'antd-mobile';
 import axios from 'axios';
-
+import IScroll from 'iscroll';
 
 
 import BigImgBox from '../BigImgBox';
@@ -64,25 +63,37 @@ class Profile extends Component {
 		}).catch(err => console.log(err));
 	}
 
+	componentDidUpdate() {
+		let myScroll = new IScroll('.wrapper');
+		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, {
+            capture: false,
+            passive: false
+        });
+	}
+
 
 	render() {
+		console.log(this.state.data);
 		return (
-			this.state.data ?
-				<div className="Profile">
-					<NavBar
-						mode="light"
-						icon={<Icon type="left" />}
-						onLeftClick={() => this.props.history.go(-1)}
-					></NavBar>
-					<div className="body">
-						<Profile_header user={this.state.data.user}></Profile_header>
-						<div className="profile_content">
-							{this.state.data.statuses.map( ( item, index) => <Card key={index} mblog={item}></Card>)}
+			<div className="Profile">
+				<NavBar
+					mode="light"
+					icon={<Icon type="left" />}
+					onLeftClick={() => this.props.history.go(-1)}
+				></NavBar>
+				{
+					this.state.data &&
+					<div className="wrapper">
+						<div className="scroll">
+							<Profile_header user={this.state.data.user}></Profile_header>
+							<div className="profile_content">
+								{this.state.data.statuses.map( ( item, index) => <Card key={index} mblog={item}></Card>)}
+							</div>
 						</div>
 					</div>
-				</div>
-				:
-				null
+				}
+
+			</div>
 		)
 	};
 }
