@@ -3,26 +3,27 @@ import './index.css';
 
 import { Link } from 'react-router-dom';
 
-import BigImgBox from '../BigImgBox';
-
+import EventBus from '../../EventBus';
 
 class Card extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            showBigPic: false,
             bigPicUrl: undefined
         }
-        // this.a = this.a.bind(this);
+
+        this.showPics = this.showPics.bind(this);
     }
 
-    showBigPic() {
-        let pics = this.props.mblog.pics
-        this.setState({
-            showBigPic: !this.state.showBigPic,
-            pics: pics
-        });
+    showPics() {
+        let pics = this.props.mblog.pics;
+
+        EventBus.emit('showCardImgs', pics);
+        // this.setState({
+        //     showBigPic: !this.state.showBigPic,
+        //     pics: pics
+        // });
     }
     render() {
         let { mblog } = this.props;
@@ -58,11 +59,10 @@ class Card extends React.Component {
                         <div className="pics">
                             <ul>
                                 {mblog.pics.map((item, index) => {
-                                    return (<li key={index} style={{ width: "32%" }}>
-                                                {/* <Link> */}
-                                                    <img style={{ width: '100%' }} src={item.url}></img>
-                                                {/* </Link> */}
-                                            </li>)
+                                    return (
+                                        <li key={index} style={{ width: "32%" }} onClick={this.showPics}>
+                                            <img style={{ width: '100%' }} src={item.url}></img>
+                                        </li>)
                                 })}
                             </ul>
                         </div>
@@ -89,9 +89,6 @@ class Card extends React.Component {
                         <i className="iconfont icon-more_iconx"></i>
                     </div>
                 </div>
-
-                {/* {this.state.showBigPic ? <BigImgBox pics={this.state.pics} hideBigPic={() => this.setState({ showBigPic: !this.state.showBigPic })}></BigImgBox> : null} */}
-
             </div>
         )
     }

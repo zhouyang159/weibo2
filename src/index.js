@@ -7,4 +7,6 @@ import 'antd-mobile/dist/antd-mobile.css';
 
 import Routes from './Routes';
 
+// import App2 from './app2';
+
 ReactDOM.render(<Routes />, document.getElementById('root'));

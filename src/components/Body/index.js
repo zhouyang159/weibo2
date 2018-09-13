@@ -87,7 +87,7 @@ class Body extends React.Component {
                 }
             });
         } else {
-            //从新刷新一下IScroll,让它知道新DOM的高度
+            //重新刷新一下IScroll,让它知道新DOM的高度
             this.BodyScroll.refresh();
         }
     }

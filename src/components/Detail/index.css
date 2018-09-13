@@ -2,6 +2,7 @@
     flex-direction: column;
     height: 100%;
 }
+
 .Detail .navbar{
     height: 45px;
 }
@@ -11,6 +12,10 @@
     top: 45px;
     bottom: 0;
     overflow: hidden;
+}
+
+.Detail .loading{
+    text-align: center;
 }
 
 

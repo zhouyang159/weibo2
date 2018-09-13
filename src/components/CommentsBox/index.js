@@ -4,7 +4,6 @@ import './index.css';
 import axios from 'axios';
 
 const Comment = (props) => {
-	console.log(props);
 	let comment = props.comment;
 	let time = new Date(comment.created_at).toLocaleString();
 

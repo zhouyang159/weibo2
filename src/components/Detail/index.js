@@ -30,28 +30,62 @@ class Detail extends Component {
 
 	//向服务器请求此条微博的评论数据
 	componentWillMount() {
+		let mblog = this.state.mblog;
 		axios({
 			url: 'http://localhost:3000/comments/hotflow',
 			params: {
-				id: 4282729749231613,
-				mid: 4282729749231613,
+				id: mblog.id,
+				mid: mblog.mid,
 				max_id_type: 0
 			}
 		}).then(res => {
 			let commentsArr = res.data.data.data;
 			this.setState({
-				commentsArr
+				commentsArr,
+				max_id: res.data.data.max_id
 			});
 		}).catch(err => console.log(err));
 	}
 
 	componentDidUpdate() {
-		this.DetailScroll = new IScroll('.wrapper');
-		document.addEventListener('touchmove', function (e) { e.preventDefault(); }, {
-			capture: false,
-			passive: false
-		});
-		this.DetailScroll.refresh();
+
+		if (!this.DetailScroll) {//如果没有新建IScroll,就新建一个，否则去刷新IScroll
+			this.DetailScroll = new IScroll('.wrapper');
+			document.addEventListener('touchmove', function (e) { e.preventDefault(); }, {
+				capture: false,
+				passive: false
+			});
+
+			//添加滚动到底部的监听
+			this.DetailScroll.on('scrollEnd', () => {
+				let maxY = this.DetailScroll.maxScrollY;
+				let y = this.DetailScroll.y;
+				if (maxY === y) {
+					let mblog = this.state.mblog;
+					let max_id = this.state.max_id;
+					axios({
+						url: 'http://localhost:3000/comments/hotflow',
+						params: {
+							id: mblog.id,
+							mid: mblog.mid,
+							max_id: max_id,
+							max_id_type: 0
+						}
+					}).then(res => {
+						let oldArr = this.state.commentsArr;
+						let newArr = oldArr.concat(res.data.data.data);
+						let max_id = res.data.data.max_id;
+
+						this.setState({
+							commentsArr: newArr,
+							max_id: max_id
+						});
+					}).catch(err => console.log(err));
+				}
+			});
+		} else {
+			this.DetailScroll.refresh();
+		}
 	}
 
 	render() {
@@ -90,6 +124,7 @@ class Detail extends Component {
 					<div className="scroller">
 						<Card mblog={this.state.mblog}></Card>
 						{commentsArr && <CommentsBox commentsArr={commentsArr} id={this.state.id}></CommentsBox>}
+						<div className="loading"><Icon type="loading" size="lg" /></div>
 					</div>
 				</div>
 			</div>

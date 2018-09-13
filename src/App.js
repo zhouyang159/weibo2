@@ -3,20 +3,38 @@ import './App.css'
 
 import Header from './components/Header';
 import Body from './components/Body';
+import BigImgBox from './components/BigImgBox';
+import EventBus from './EventBus';
+
+import userContext from './userContext';
+
 
 class App extends Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props)
-        this.state = {}
+        this.state = {
+            showBigImgBox: false
+        }
+
+        EventBus.addListener('showCardImgs', (pics) => {
+            this.setState({
+                showBigImgBox: true,
+                pics: pics
+            });
+        });
     }
 
     render() {
+        let { showBigImgBox, pics } = this.state;
         return (
             <div className="App">
                 <Header></Header>
-                <Body></Body>
-			</div>
+                <userContext.Consumer>
+                    {(value) => <Body login={value}></Body>}
+                </userContext.Consumer>
+                {showBigImgBox && <BigImgBox hide={() => this.setState({ showBigImgBox: false })} pics={pics}></BigImgBox>}
+            </div>
         )
     }
 }
