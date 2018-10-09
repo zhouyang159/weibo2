@@ -6,7 +6,7 @@ class Template extends Component {
 		return (
 			<div className="Template">
 				Template
-      		</div>
+      </div>
 		)
 	};
 }
