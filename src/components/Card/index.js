@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './index.css';
 
 import { Link } from 'react-router-dom';
@@ -12,18 +12,12 @@ class Card extends React.Component {
         this.state = {
             bigPicUrl: undefined
         }
-
         this.showPics = this.showPics.bind(this);
     }
 
     showPics() {
         let pics = this.props.mblog.pics;
-
         EventBus.emit('showCardImgs', pics);
-        // this.setState({
-        //     showBigPic: !this.state.showBigPic,
-        //     pics: pics
-        // });
     }
     render() {
         let { mblog } = this.props;

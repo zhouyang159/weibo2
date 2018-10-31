@@ -1,6 +1,6 @@
 .Card{
-    background: skyblue;
-    margin-bottom: 5px;
+    background: white;
+    margin-bottom: 10px;
     padding: 0 10px;
 }
 
@@ -32,7 +32,11 @@
 }
 
 .Card .card_body{
-    background: yellow;
+    /* background: yellow; */
+}
+
+.Card .card_body a{
+    color: black;
 }
 
 .Card .card_body .pics ul{
