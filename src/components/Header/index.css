@@ -42,6 +42,10 @@
     font-size: 10px;
 }
 
+.Header .category .swiper-slide{
+    width: 43px !important;
+}
+
 .Header .category .active-slide{
     font-weight: bold;
 }

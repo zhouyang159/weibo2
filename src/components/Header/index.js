@@ -157,10 +157,19 @@ class Header extends React.Component {
                     <div className="slider_item center">
                         <div className="header-category-swiper-container">
                             <div className="swiper-wrapper">
-                                {this.state.categoryArr ?
-                                    this.state.categoryArr.map(item => {
-                                        return <div key={item.gid} data-id={item.gid} onClick={this.changeCategory(item.gid)} className={item.gid === activeTabId ? "swiper-slide active-slide" : "swiper-slide"}>{item.name}</div>
-                                    }) : null}
+                                {
+                                    this.state.categoryArr ?
+                                        this.state.categoryArr.map(item => {
+                                            return (
+                                                <div
+                                                    key={item.gid}
+                                                    data-id={item.gid}
+                                                    onClick={this.changeCategory(item.gid)}
+                                                    className={item.gid === activeTabId ? "swiper-slide active-slide" : "swiper-slide"}
+                                                >{item.name}</div>
+                                            )
+                                        }) : null
+                                }
                             </div>
                         </div>
                     </div>
